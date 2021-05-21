@@ -4,7 +4,7 @@ import Message from "../interfaces/message";
 let socket:Socket;
 
 const connect = (on_message_received: (message: Message) => void) => {
-    socket = io("http://localhost:5005");
+    socket = io(process.env.REACT_APP_RASA_DOMAIN);
 
     socket.on('connect', () => {
         sendMessage("Hi", () => {});
