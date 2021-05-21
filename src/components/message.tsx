@@ -1,12 +1,17 @@
 import SuggestionButton from "./suggestion-button";
 import React from "react";
+import {QuickReply} from "../interfaces/message";
 
-const Message = ({message, buttons=[], isHuman=false}: {message: string, buttons?: Array<any>, isHuman?: boolean}) => (
-    <div>
-        <p className={`pb-2 ${isHuman ? 'text-right': ''}`}>{message}</p>
+const Message = ({message, quick_replies=[], isHuman=false, onQuickReplyClick}: {message: string, quick_replies?: QuickReply[], isHuman?: boolean, onQuickReplyClick: (reply: QuickReply) => void}) => (
+    <div className="py-2">
+        <p className={`pb-2 ${isHuman ? 'text-right': ''}`}>{ isHuman ? 'Me: ': 'Wendy: ' }{message}</p>
         <div className="flex flex-row flex-wrap gap-x-4 gap-y-2">
             {
-                buttons.length > 0 && buttons.map((button: { text: string, payload: string }) => (<SuggestionButton>{button.text}</SuggestionButton>))
+                quick_replies.length > 0 && quick_replies.map(
+                    (reply: QuickReply, index: number) => (
+                        <SuggestionButton key={index} onClick={() => onQuickReplyClick(reply)}>{reply.title}</SuggestionButton>
+                    )
+                )
             }
         </div>
     </div>
